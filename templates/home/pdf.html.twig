@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation{% endblock %}
+{% block stylesheets %}
+
+    <style>
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="small" style="font-size: 1.75vw; background: #f8f8f8; padding: 0px 0px; font-family: arial; line-height: 16px; height: 100%; width: 100%; color: #514d6a;">
+        <div style="max-width: 700px; padding: 0px 0; margin: 0px auto; font-size: 14px;">
+            <div style="padding: 40px; background: #fff;">
+                <table style="width: 100%;" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr style="height: 143px;">
+                        <td style="width: 54.8145%; height: 143px;">&nbsp;</td>
+                        <td style="width: 41.1855%; height: 143px;" align="right">
+                            <h1><strong>Facture </strong></h1>
+                            <p style="padding-left: 0px;"><strong>N°Commande : {{ command.numeroCommand }}</strong></p>
+                            <p style="padding-left: 0px;"><strong>Date: {{ command.createdAt | date('d-m-Y') }}</strong></p>
+                            <p style="padding-left: 0px;"><strong>{{ command.firstname  }} {{ command.lastname  }}</strong></p>
+                            <p style="padding-left: 0px;"><strong>{{ command.adresse  }}</strong></p>
+                            <p>&nbsp;</p>
+                        </td>
+                    </tr>
+                    <tr style="height: 16px;">
+                        <td style="width: 54.8145%; padding-left: 30px; height: 16px;">&nbsp;</td>
+                        <td style="width: 41.1855%; height: 16px;" align="right">&nbsp;</td>
+                    </tr>
+                    <tr style="height: 11.5333px;">
+                        <td style="width: 54.8145%; padding-left: 30px; height: 11.5333px;">&nbsp;</td>
+                        <td style="width: 41.1855%; height: 11.5333px;" align="right">&nbsp;</td>
+                    </tr>
+                    <tr style="height: 90px;">
+                        <td style="width: 54.8145%; height: 90px;"><strong>{{ command.nameEnterprise }}</strong>
+                            <p>{{ command.adresseEnterprise }}</p>
+                        </td>
+                        <td style="width: 41.1855%; height: 90px;" align="right">&nbsp;</td>
+                    </tr>
+                    <tr style="height: 16px;">
+                        <td style="width: 54.8145%; height: 16px;">&nbsp;</td>
+                        <td style="width: 41.1855%; height: 16px;" align="right">&nbsp;</td>
+                    </tr>
+                    <tr style="height: 198px;">
+                        <td style="padding: 20px 0px; border-top: 1px solid #f6f6f6; width: 96%; height: 198px;" colspan="2">
+                            <div>
+                                <table style="margin-left: auto; margin-right: auto;" width="100%" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                    <tr style="height: 28px;">
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 17%; height: 28px; text-align: center; background-color: #ffffff;"><span style="background-color: #ffffff; color: #000000;"><strong>Produits</strong></span></td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 27.0774%; height: 28px; text-align: center; background-color: #ffffff;"><span style="background-color: #ffffff; color: #000000;"><strong>Quantité</strong></span></td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 22.9226%; height: 28px; text-align: center; background-color: #ffffff;"><span style="background-color: #ffffff; color: #000000;"><strong>Prix unitaire</strong></span></td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 16%; height: 28px; text-align: center; background-color: #ffffff;"><span style="background-color: #ffffff; color: #000000;"><strong>TVA</strong></span></td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 63%; height: 28px; text-align: center; background-color: #ffffff;" align="right"><span style="background-color: #ffffff; color: #000000;"><strong>Total HT</strong></span></td>
+                                    </tr>
+                                    {% for items in command.commandProducts %}
+                                        <tr style="height: 7.60001px;">
+
+                                            <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 17%; height: 7.60001px; text-align: center;">{{ items.product.name }}</td>
+                                            <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 27.0774%; height: 7.60001px; text-align: center;">{{ items.quantity }}</td>
+                                            <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 22.9226%; height: 7.60001px; text-align: center;">{{ items.product.price }} €</td>
+                                            <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 16%; height: 7.60001px; text-align: center;">20%</td>
+                                            <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin: 0px; padding: 9px 0px; width: 63%; height: 7.60001px; text-align: center;" align="right">{{ items.price }} €</td>
+                                        </tr>
+
+                                    {% endfor %}
+                                    <tr class="total" style="height: 7.60001px; margin-top: 3em">
+                                        <br><br>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; border-top: 1px solid #f6f6f6; margin: 0px; padding: 9px 0px; font-weight: bold; width: 17%; height: 7.60001px; ">&nbsp;</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; border-top: 1px solid #f6f6f6; margin: 0px; padding: 9px 0px; font-weight: bold; width: 27.0774%; height: 7.60001px;">&nbsp;</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; border-top: 1px solid #f6f6f6; margin: 0px; padding: 9px 0px; font-weight: bold; width: 22.9226%; height: 7.60001px;">&nbsp;</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; border-top: 1px solid #f6f6f6; padding: 9px 0px; font-weight: bold; width: 16%; height: 7.60001px; text-align: center; margin-top: 3em;">Total HT</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; border-top: 1px solid #f6f6f6; margin: 0px; padding: 9px 0px; font-weight: bold; width: 63%; height: 7.60001px; text-align: center;" align="right">{{ command.ht }} €</td>
+                                    </tr>
+                                    <tr class="total" style="height: 7.60001px;">
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin-top: -2em; padding: 9px 0px; font-weight: bold; width: 17%; height: 7.60001px;">&nbsp;</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; padding: 9px 0px; font-weight: bold; width: 27.0774%; height: 7.60001px;">&nbsp;</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; padding: 9px 0px; font-weight: bold; width: 22.9226%; height: 7.60001px;">&nbsp;</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin-top: -6em; padding: 9px 0px; font-weight: bold; width: 16%; height: 7.60001px; text-align: center;">TVA</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin-top: -6em;  padding: 9px 0px; font-weight: bold; width: 63%; height: 7.60001px; text-align: center;" align="right">{{ command.tva }} €</td>
+                                    </tr>
+                                    <tr class="total" style="height: 7.60001px;">
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin-top: -2em; padding: 9px 0px; font-weight: bold; width: 17%; height: 7.60001px;">&nbsp;</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin-top: -2em; padding: 9px 0px; font-weight: bold; width: 27.0774%; height: 7.60001px;">&nbsp;</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin-top: -2em; padding: 9px 0px; font-weight: bold; width: 22.9226%; height: 7.60001px;">&nbsp;</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin-top: -2em; padding: 9px 0px; font-weight: bold; width: 16%; height: 7.60001px; text-align: center;">Total TTC</td>
+                                        <td style="font-family: 'arial'; font-size: 14px; vertical-align: middle; margin-top: -2em; padding: 9px 0px; font-weight: bold; width: 63%; height: 7.60001px; text-align: center;" align="right">{{ command.total }} €</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 134px;">
+                        <td style="width: 96%; height: 134px;" colspan="2"><center></center>
+                            <p>Nous vous remercions pour votre commande</p>
+                            <p><strong>A bientôt dans nos magasinss&nbsp;</strong></p>
+                            <p><strong>{{ command.nameEnterprise }}</strong></p>
+                            <p>&nbsp;</p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
