@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un produit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(add_product) }}
+                        <div class="mb-3">
+                            <label class="form-label">{{ form_label(add_product.name, 'Nom du produit') }}</label>
+                            {{ form_row(add_product.name) }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ form_label(add_product.price, 'Prix du produit') }}</label>
+                            {{ form_row(add_product.price) }}
+                        </div>
+                        <button class="btn btn-sm btn-secondary float-end border-dark p-2 pe-3 ps-3 text-dark fw-bold mt-3 bg-color-F0BB62 shadow-none">Ajouter le produit</button>
+                        {{ form_end(add_product) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="#">LeTest.</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Ajouter un produit</a>
+                        </li>
+
+                    </ul>
+                    <div class="d-flex">
+                        <button type="button" class="btn btn-dark bg-transparent text-dark shadow-none position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ items |length }}<span class="visually-hidden">unread messages</span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel"><i class="fas fa-shopping-cart me-2"></i>Mon panier</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="list-group list-group-flush">
+                    {% for item in items %}
+                        <li class="list-group-item">{{ item.product.name }} <span class="float-end fw-bold">{{ item.quantity }}</span>
+                            <br>
+                            <small>Prix : {{ item.product.price }} €</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <h6 class="float-end">Prix HT : {{ total }} €</h6>
+                <br><br>
+                <h6 class="float-end">TVA 20% : {{ tva }} €</h6>
+                <br><br>
+                <h6 class="float-end">Prix TTC : {{ ttc }} €</h6>
+            </div>
+        </div>
+        <hr>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success text-center">
+                {{ message  }}
+            </div>
+        {% endfor %}
+        <table class="table table-sm mt-5">
+            <thead>
+            <tr>
+                <th scope="col">N°Command</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for command in commands | sort | reverse %}
+                <tr>
+                    <td>
+                        <p class="mt-2">{{ command.numeroCommand }}</p>
+                    </td>
+                    <td >
+                        <p class="mt-2">{{ command.firstname }}</p>
+                    </td>
+                    <td >
+                        <p class="mt-2">{{ command.lastname }}</p>
+                    </td>
+                    <td>
+                        <p class="mt-2">{{ command.total }} €</p>
+                    </td>
+                    <td>
+                        <a href="" class="btn btn-outline-danger btn-sm shadow-none">PDF</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="card card-body p-4 mt-4">
+            <h5>Passer une commande</h5>
+            <br>
+            {{ form_start(form_command) }}
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label class="form-label">{{ form_label(form_command.firstname, 'Nom du client') }}</label>
+                        {{ form_row(form_command.firstname) }}
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label class="form-label">{{ form_label(form_command.lastname, 'Prénom du client') }}</label>
+                        {{ form_row(form_command.lastname) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="mb-3">
+                    <label class="form-label">{{ form_label(form_command.adresse, 'Adresse du client') }}</label>
+                    {{ form_row(form_command.adresse) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label class="form-label">{{ form_label(form_command.nameEnterprise, 'Nom de l\'entreprise') }}</label>
+                        {{ form_row(form_command.nameEnterprise) }}
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label class="form-label">{{ form_label(form_command.adresseEnterprise, 'Adresse de l\'entreprise') }}</label>
+                        {{ form_row(form_command.adresseEnterprise) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="mb-3">
+                    <label class="form-label">{{ form_label(form_command.telephoneEnterprise, 'Numéro de tel de l\'entreprise') }}</label>
+                    {{ form_row(form_command.telephoneEnterprise) }}
+                </div>
+            </div>
+            <button class="btn btn-sm btn-secondary float-end border-dark p-2 pe-3 ps-3 fw-bold mt-3 bg-color-F0BB62 shadow-none">Commander</button>
+            {{ form_end(form_command) }}
+        </div>
+        <h4 class="mt-4">Listes des produits</h4>
+        <div class="d-flex flex-wrap mt-4 gap-3">
+            {% for products  in product %}
+                <div class="card p-3 border-2 border-dark" style="width: 17em">
+                    <div class="card-body d-flex justify-content-between">
+                        <h5>{{ products.name }}</h5>
+                        <small>{{ products.price }} €</small>
+                    </div>
+                    <a href="{{ path('cart_add', {id: products.id}) }}" type="button" class="btn btn-secondary float-end">Ajouter au panier</a>
+                </div>
+            {% endfor %}
+        </div>
+        <br><br><br>
+    </div>
+{% endblock %}
